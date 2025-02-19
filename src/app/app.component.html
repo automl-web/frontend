@@ -1,0 +1,40 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button aria-label="Menu icon" color="secondary" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <h1>AutoML-web</h1>
+</mat-toolbar>
+
+<mat-sidenav-container autosize>
+  <mat-sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="isCollapsed">
+    <mat-nav-list>
+      <a href="datasets" mat-list-item>
+        <span class="entry">
+          <mat-icon>dataset</mat-icon>
+          <span>Datasets</span>
+        </span>
+      </a>
+      <a href="optimizations" mat-list-item>
+        <span class="entry">
+          <mat-icon>play_circle</mat-icon>
+          <span>Optimizations</span>
+        </span>
+      </a>
+      <a href="results" mat-list-item>
+        <span class="entry">
+          <mat-icon>calculate</mat-icon>
+          <span>Results</span>
+        </span>
+      </a>
+<!--      <a href="leaderboard" mat-list-item>-->
+<!--        <span class="entry">-->
+<!--          <mat-icon>leaderboard</mat-icon>-->
+<!--          <span>Leaderboard</span>-->
+<!--        </span>-->
+<!--      </a>-->
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

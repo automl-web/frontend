@@ -1,0 +1,14 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+// regular style toast
+@import 'ngx-toastr/toastr';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.global-padding {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+// .w-100 {width: 100%;}

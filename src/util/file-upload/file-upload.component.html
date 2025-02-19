@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1>{{title}}</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                
+            lorem ipsum
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-end">
+            <div class="col-3">
+                <input type="file" name="file" style="display: none;" #file [accept]="supported_formats" (change)="fileChange($event)">
+                <button for="file" mat-fab extended color="primary" width="w-100" (click)="file.click()">
+                    <mat-icon>search</mat-icon> Buscar
+                </button>
+            </div>
+            <div class="col-3">
+                <button type="button" mat-fab extended color="primary" width="w-100">
+                    <mat-icon>upload</mat-icon> Upload
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

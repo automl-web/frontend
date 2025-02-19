@@ -1,0 +1,111 @@
+<div class="mt-2 container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Let's create a new Dataset</h1>
+        </div>
+    </div>
+    <mat-stepper linear #stepper>
+        <mat-step>
+            <ng-template matStepLabel>Dataset Configuration</ng-template>
+            <div class="container">
+                <form [formGroup]="form" (ngSubmit)="createDataset()">
+                    <div class="row">
+                        <div class="col-3">Name</div>
+                        <div class="col-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input matInput formControlName="name">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3">Description</div>
+                        <div class="col-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input matInput formControlName="description">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3">Author</div>
+                        <div class="col-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input matInput formControlName="author">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3">Version</div>
+                        <div class="col-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input type="number" matInput formControlName="version">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3">
+                            <button mat-raised-button color="primary" class="w-100" type="submit" matStepperNext>Create
+                            </button>
+                        </div>
+                        <div class="col-3">
+                            <button mat-raised-button color="secondary" class="w-100" type="button"
+                                    routerLink="/datasets">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>Upload</ng-template>
+            <div class="mt-2 container">
+
+                <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-12">
+                            <input
+                                    type="file"
+                                    accept=".csv"
+                                    (change)="onFileSelected($event)"
+                                    hidden
+                                    #fileInput
+                            />
+                        </div>
+
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Selecionar Arquivo CSV</mat-label>
+                            <input
+                                    matInput
+                                    [value]="selectedFile?.name || 'Nenhum arquivo selecionado'"
+                                    readonly
+                            />
+                            <button
+                                    mat-icon-button
+                                    matSuffix
+                                    (click)="fileInput.click()"
+                                    title="Escolher arquivo"
+                            >
+                                <mat-icon>attach_file</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!uploadForm.valid">
+                        Enviar Arquivo
+                    </button>
+                </form>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>Complete</ng-template>
+
+        </mat-step>
+
+    </mat-stepper>
+</div>  

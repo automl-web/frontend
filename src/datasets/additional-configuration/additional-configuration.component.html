@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Let's configure dataset</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <mat-stepper #stepper>
+                <mat-step label="Upload Dataset">
+                    <div class="row p-3">
+                        <div class="col-4">
+                            <input type="file" name="file" style="display: none;" #file [accept]="supported_formats"
+                                (change)="fileChange($event)">
+                            <button for="file" mat-fab extended color="secondary" width="w-100" (click)="file.click()">
+                                <mat-icon>search</mat-icon> Buscar
+                            </button>
+                        </div>
+                        <div class="col-8">
+                            <span>{{selectedFile}}</span>
+                        </div>
+                    </div>
+                    <div class="row p-3">
+                        <div class="col-12">
+                            <button mat-raised-button color="primary" matStepperNext (click)="upload()">Upload</button>
+                        </div>
+                    </div>
+                </mat-step>
+
+                <mat-step label="Select Target Feature">
+                    <form [formGroup]="form">
+                        <button mat-raised-button color="secondary" (click)="listFeatures()">List Features</button>
+                        <mat-form-field>
+                            <mat-select formGroupName="targetFeature">
+                                <mat-option *ngFor="let feature of features" [value]="feature">{{feature}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div>
+                            <button mat-button matStepperNext (click)="updateTargetFeature()">Next</button>
+                        </div>
+                    </form>
+                </mat-step>
+
+                <mat-step label="Configuration Complete">
+                    <p>You are now done.</p>
+                    <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button (click)="stepper.reset()">Reset</button>
+                    </div>
+                </mat-step>
+            </mat-stepper>
+        </div>
+    </div>
+</div>
