@@ -30,7 +30,7 @@
 
         <ng-container matColumnDef="optimizer">
           <th mat-header-cell *matHeaderCellDef> Optimizer </th>
-          <td mat-cell *matCellDef="let element"> {{ element.optimizer }} </td>
+          <td mat-cell *matCellDef="let element"> {{ element.optimization }} </td>
         </ng-container>
 
         <ng-container matColumnDef="action">
@@ -39,7 +39,7 @@
             <div class="flex">
               <button mat-icon-button><mat-icon>delete</mat-icon></button>
               <button mat-icon-button><mat-icon>edit</mat-icon></button>
-              <button mat-icon-button [routerLink]="[element.id, 'additional-configuration']"><mat-icon>upload</mat-icon></button>
+              <button mat-icon-button (click)="startAlgorithm(element.id)"><mat-icon>play_circle</mat-icon></button>
             </div>
           </td>
         </ng-container>

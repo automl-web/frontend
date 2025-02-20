@@ -13,6 +13,7 @@ export class AddOrUpdateComponent {
     public form: FormGroup;
     public uploadForm: FormGroup;
     public selectedFile: File | null = null;
+    public datasetId: number | null = null;
 
     public constructor(public fb: FormBuilder, private datasetService: DatasetService, private toastr: ToastrService,
                        private router: Router, private route: ActivatedRoute
@@ -33,8 +34,8 @@ export class AddOrUpdateComponent {
 
     public createDataset() {
         this.datasetService.post(this.form.getRawValue()).subscribe(d => {
-            this.toastr.success(`${d.name} created with success!`, "Result")
-            this.router.navigate([".."], {relativeTo: this.route});
+            this.toastr.success(`${d.name} created with success!`, "Result");
+            this.datasetId = d.id;
         })
     }
 
@@ -53,14 +54,13 @@ export class AddOrUpdateComponent {
 
     onSubmit() {
         if (this.uploadForm.valid && this.selectedFile) {
-            console.log('Arquivo selecionado:', this.selectedFile.name);
 
-            // Aqui você pode enviar o arquivo para um backend
             const formData = new FormData();
             formData.append('file', this.selectedFile);
 
-            // Simulação de envio
-            console.log('Enviando arquivo...', formData);
+            this.datasetService.upload(this.datasetId!, formData).subscribe(() => {
+                this.toastr.success('Upload feito com sucesso!', 'Resultado');
+            });
         }
     }
 

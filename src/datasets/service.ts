@@ -3,12 +3,13 @@ import { GenericService } from "../services/generic_service";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
-export class DatasetRequest {
+export interface DatasetRequest {
 
 }
 
-export class DatasetResponse {
-    name: string = "";
+export interface DatasetResponse {
+    id: number;
+    name: string;
 }
 
 @Injectable({
