@@ -21,6 +21,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatSelectModule} from "@angular/material/select";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import {MatSelectModule} from "@angular/material/select";
         MatStepperModule,
         FormsModule,
         MatSelectModule,
+        MatCheckboxModule
     ]
 })
 export class OptimizationsModule { }

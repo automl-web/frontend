@@ -1,1 +1,137 @@
-<p>add-or-update works!</p>
+<div class="mt-2 container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Let's configure an optimization</h1>
+        </div>
+    </div>
+
+    <mat-stepper linear #stepper>
+        <mat-step>
+            <ng-template matStepLabel>Optimization Setup</ng-template>
+
+            <div class="mt-2 container">
+                <form [formGroup]="algorithmForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-12">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Dataset</mat-label>
+                                <mat-select formControlName="dataset">
+                                    <mat-option *ngFor="let dataset of datasets" [value]="dataset">
+                                        {{ dataset }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Optimization Algorithm</mat-label>
+                                <mat-select formControlName="optimizationAlgorithm">
+                                    <mat-option *ngFor="let algo of optimizationAlgorithms" [value]="algo">
+                                        {{ algo }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!algorithmForm.valid"
+                            matStepperNext>
+                        Submit
+                    </button>
+                </form>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>Parameters</ng-template>
+
+            <div class="mt-2 container">
+                <form [formGroup]="tpotParameterForm">
+                    <div class="row">
+                        <div class="col-12">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Generations</mat-label>
+                                <input matInput type="number" formControlName="generations">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Population Size</mat-label>
+                                <input matInput type="number" formControlName="population_size">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Offspring Size</mat-label>
+                                <input matInput type="number" formControlName="offspring_size">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Mutation Rate</mat-label>
+                        <input matInput type="number" step="0.01" formControlName="mutation_rate">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Crossover Rate</mat-label>
+                        <input matInput type="number" step="0.01" formControlName="crossover_rate">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Scoring</mat-label>
+                        <mat-select formControlName="scoring">
+                            <mat-option *ngFor="let score of scoringMethods" [value]="score">
+                                {{ score }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Cross-Validation (CV)</mat-label>
+                        <input matInput type="number" formControlName="cv">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Subsample</mat-label>
+                        <input matInput type="number" step="0.01" formControlName="subsample">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Number of Jobs</mat-label>
+                        <input matInput type="number" formControlName="n_jobs">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Max Time (mins)</mat-label>
+                        <input matInput type="number" formControlName="max_time_mins">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Max Eval Time (mins)</mat-label>
+                        <input matInput type="number" formControlName="max_eval_time_mins">
+                    </mat-form-field>
+
+                    <mat-checkbox formControlName="warm_start">Warm Start</mat-checkbox>
+
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!tpotParameterForm.valid">
+                        Submit
+                    </button>
+                </form>
+            </div>
+        </mat-step>
+
+        <mat-step>
+
+        </mat-step>
+    </mat-stepper>
+</div>
