@@ -23,4 +23,12 @@ export class OptimizationService extends GenericService<Request, OptimizationRes
     public run(id: number) {
         return this.http.post(`${super.url}/${id}/run`, {});
     }
+
+    public listSupportedOptimizers() {
+        return this.http.get<string[]>(`${super.url}/supported-optimizers`);
+    }
+
+    public listScoringFunctions() {
+        return this.http.get<string[]>(`${super.url}/scoring-functions`);
+    }
 }

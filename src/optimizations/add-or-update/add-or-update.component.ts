@@ -13,7 +13,7 @@ export class AddOrUpdateComponent {
     tpotParameterForm: FormGroup;
     datasets: DatasetResponse[] = [];
     optimizationAlgorithms = ['TPOT'];
-    scoringMethods = ['accuracy', 'adjusted_rand_score', 'average_precision', 'balanced_accuracy', 'f1',
+    scoringFunctions = ['accuracy', 'adjusted_rand_score', 'average_precision', 'balanced_accuracy', 'f1',
         'f1_macro', 'f1_micro', 'f1_samples', 'f1_weighted', 'neg_log_loss', 'precision', 'recall', 'jaccard',
         'roc_auc', 'roc_auc_ovr', 'roc_auc_ovo', 'roc_auc_ovr_weighted', 'roc_auc_ovo_weighted']
 
@@ -44,9 +44,17 @@ export class AddOrUpdateComponent {
             warm_start: [false]
         });
 
-        this.datasetService.list().subscribe(datasets => {
-            this.datasets = datasets;
-        });
+        // this.datasetService.list().subscribe(datasets => {
+        //     this.datasets = datasets;
+        // });
+
+        this.optimizationService.listSupportedOptimizers().subscribe(response => {
+            this.optimizationAlgorithms = response;
+        })
+
+        this.optimizationService.listScoringFunctions().subscribe(response => {
+            this.scoringFunctions = response;
+        })
     }
 
     onSubmit() {
