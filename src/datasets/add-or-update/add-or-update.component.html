@@ -47,6 +47,15 @@
                     </div>
 
                     <div class="row">
+                        <div class="col-3">Target</div>
+                        <div class="col-9">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <input formControlName="targetFeature" matInput>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-3">
                             <button mat-raised-button color="primary" class="w-100" type="submit" matStepperNext>
                                 Create
@@ -98,7 +107,8 @@
                         </mat-form-field>
                     </div>
 
-                    <button mat-raised-button color="primary" type="submit" [disabled]="!uploadForm.valid">
+                    <button [disabled]="!uploadForm.valid" color="primary" mat-raised-button matStepperNext
+                            type="submit">
                         Enviar Arquivo
                     </button>
                 </form>

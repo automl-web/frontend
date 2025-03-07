@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DatasetService} from '../service';
 import {ToastrService} from 'ngx-toastr';
-import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-add-or-update',
@@ -19,10 +19,11 @@ export class AddOrUpdateComponent {
                        private router: Router, private route: ActivatedRoute
     ) {
         this.form = fb.group({
+            id: [null],
             name: [],
             description: [],
             author: [],
-            target: [],
+            targetFeature: [],
             version: [1]
         });
 
@@ -30,13 +31,28 @@ export class AddOrUpdateComponent {
             csvFile: [null, Validators.required]
         });
 
+        this.route.paramMap.subscribe(params => {
+            const id = params.get('id');
+            if (id) {
+                this.datasetId = parseInt(id);
+                this.datasetService.get(this.datasetId).subscribe(d => {
+                    this.form.patchValue(d);
+                });
+            }
+        });
     }
 
     public createDataset() {
-        this.datasetService.post(this.form.getRawValue()).subscribe(d => {
-            this.toastr.success(`${d.name} created with success!`, "Result");
-            this.datasetId = d.id;
-        })
+        if (this.datasetId) {
+            this.datasetService.update(this.datasetId, this.form.getRawValue()).subscribe(d => {
+                this.toastr.success(`${d.name} updated with success!`, 'Result');
+            });
+        } else {
+            this.datasetService.post(this.form.getRawValue()).subscribe(d => {
+                this.toastr.success(`${d.name} created with success!`, "Result");
+                this.datasetId = d.id;
+            });
+        }
     }
 
     onFileSelected(event: any) {

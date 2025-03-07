@@ -1,6 +1,5 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { environment } from "../environments/enviroments";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../environments/enviroments";
 
 
 export class GenericService<Req, Res> {
@@ -29,6 +28,6 @@ export class GenericService<Req, Res> {
     }
 
     public update(id: number, req: Req) {
-        return this.http.patch<Res>(`${this.url}/${id}`, req);
+        return this.http.put<Res>(`${this.url}/${id}`, req);
     }
 }

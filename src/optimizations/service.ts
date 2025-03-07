@@ -9,7 +9,10 @@ export interface OptimizationRequest{
 export interface OptimizationResponse {
     id: number;
     name: string;
-    optimization: string;
+    algorithm: string;
+    dataset: { id: number, name: string };
+    scoringMethod: string;
+
 }
 
 @Injectable({
@@ -17,7 +20,7 @@ export interface OptimizationResponse {
 })
 export class OptimizationService extends GenericService<Request, OptimizationResponse> {
     public constructor(protected override http: HttpClient) {
-        super("optimizations", http);
+        super("optimizers", http);
     }
 
     public run(id: number) {

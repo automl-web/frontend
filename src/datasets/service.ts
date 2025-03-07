@@ -1,15 +1,23 @@
-import { Injectable } from "@angular/core";
-import { GenericService } from "../services/generic_service";
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import {Injectable} from "@angular/core";
+import {GenericService} from "../services/generic_service";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 
 export interface DatasetRequest {
-
+    name: string;
+    author: string;
+    version: string;
+    targetFeature: string;
 }
 
 export interface DatasetResponse {
     id: number;
     name: string;
+    author: string;
+    version: string;
+    numRows: number;
+    numCols: number;
+    targetFeature: string;
 }
 
 @Injectable({

@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DatasetResponse, DatasetService} from "../../datasets/service";
 import {OptimizationService} from "../service";
+import {ToastrService} from "ngx-toastr";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'app-add-or-update',
@@ -19,8 +21,11 @@ export class AddOrUpdateComponent {
 
     constructor(private fb: FormBuilder,
                 private datasetService: DatasetService,
-                private optimizationService: OptimizationService) {
+                private optimizationService: OptimizationService,
+                private route: ActivatedRoute,
+                private toastr: ToastrService) {
         this.algorithmForm = this.fb.group({
+            id: [null],
             name: [null, Validators.required],
             dataset: [null, Validators.required],
             optimization: [null, Validators.required]
@@ -28,44 +33,59 @@ export class AddOrUpdateComponent {
 
         this.tpotParameterForm = this.fb.group({
             generations: [100, [Validators.required, Validators.min(1)]],
-            population_size: [100, [Validators.required, Validators.min(1)]],
-            offspring_size: [null],
-            mutation_rate: [0.9, [Validators.required, Validators.min(0), Validators.max(1)]],
-            crossover_rate: [0.1, [Validators.required, Validators.min(0), Validators.max(1)]],
-            scoring: ['accuracy', Validators.required],
+            populationSize: [100, [Validators.required, Validators.min(1)]],
+            offspringSize: [null],
+            mutationRate: [0.9, [Validators.required, Validators.min(0), Validators.max(1)]],
+            crossoverRate: [0.1, [Validators.required, Validators.min(0), Validators.max(1)]],
+            scoringMethod: ['accuracy', Validators.required],
             cv: [5, [Validators.required, Validators.min(2)]],
             subsample: [1.0, [Validators.required, Validators.min(0), Validators.max(1)]],
-            n_jobs: [1, Validators.required],
-            max_time_mins: [null],
-            max_eval_time_mins: [5, [Validators.required, Validators.min(1)]],
-            random_state: [null],
-            config_dict: [null],
+            nJobs: [1, Validators.required],
+            maxTimeMins: [null],
+            maxEvalTimeMins: [5, [Validators.required, Validators.min(1)]],
+            randomState: [42],
+            configDict: [null],
             template: [null],
-            warm_start: [false]
+            warmStart: [false]
         });
 
-        // this.datasetService.list().subscribe(datasets => {
-        //     this.datasets = datasets;
-        // });
+        this.datasetService.list().subscribe(datasets => {
+            this.datasets = datasets;
+        });
 
         this.optimizationService.listSupportedOptimizers().subscribe(response => {
             this.optimizationAlgorithms = response;
-        })
+        });
 
         this.optimizationService.listScoringFunctions().subscribe(response => {
             this.scoringFunctions = response;
-        })
+        });
+
+        if (this.route.snapshot.params['id']) {
+            this.optimizationService.get(this.route.snapshot.params['id']).subscribe(data => {
+                this.algorithmForm.patchValue(data);
+                this.algorithmForm.patchValue({id: data?.id});
+                this.algorithmForm.patchValue({dataset: this.datasets.find(d => d.id == data?.dataset?.id)});
+                this.algorithmForm.patchValue({optimization: this.optimizationAlgorithms.find(o => o == data?.algorithm)});
+                this.tpotParameterForm.patchValue(data);
+                this.tpotParameterForm.patchValue({scoringMethod: this.scoringFunctions.find(s => s == data?.scoringMethod)});
+            });
+        }
     }
 
     onSubmit() {
         if (this.algorithmForm.valid && this.tpotParameterForm.valid) {
             const data = {...this.algorithmForm.value, ...this.tpotParameterForm.value};
-            data["dataset_id"] = data.dataset.id;
-            delete data.dataset;
-            console.log(data)
-            this.optimizationService.post(data).subscribe(d => {
-                console.log(d);
-            });
+
+            if (this.algorithmForm.value.id) {
+                this.optimizationService.update(this.algorithmForm.value.id, data).subscribe(d => {
+                    this.toastr.success(`${d.name} updated with success!`, "Result");
+                });
+            } else {
+                this.optimizationService.post(data).subscribe(d => {
+                    this.toastr.success(`${d.name} created with success!`, "Result");
+                });
+            }
         }
     }
 }

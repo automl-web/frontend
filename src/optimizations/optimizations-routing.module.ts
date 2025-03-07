@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {ListComponent} from "./list/list.component";
 import {AddOrUpdateComponent} from "./add-or-update/add-or-update.component";
 
@@ -9,7 +9,11 @@ const routes: Routes = [
     component: ListComponent
   },
   {
-    path: "add-or-update",
+    path: "create",
+    component: AddOrUpdateComponent,
+  },
+  {
+    path: "update/:id",
     component: AddOrUpdateComponent,
   }
 ];
